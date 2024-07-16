@@ -4,7 +4,5 @@
 if __name__ == "__main__":
     def list_all(mongo_collection):
         ''' function itself '''
-        if not mongo_collection:
-            return []
-
-        return list(mongo_collection.find())
+        docs = list(mongo_collection.find())
+        return docs if docs else []
