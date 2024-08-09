@@ -4,7 +4,7 @@
 
 import uuid
 import redis
-from typing import Union
+from typing import Union, Type
 
 
 class Cache:
@@ -18,3 +18,22 @@ class Cache:
         key = str(uuid.uuid4())
         self._redis.set(key, data)
         return key
+
+    def get_str(self, key):
+        v = self._redis.get(key)
+        value = str(v)
+        return value
+
+    def get_int(self, key):
+        v = self._redis.get(key)
+        value = int(v)
+        return value
+
+    def get(self, key, fn: Type = None):
+        ''' getter function '''
+        if not key:
+            return '(nil)'
+        r = self._redis.get(key)
+        if fn:
+            return fn(r)
+        return r
